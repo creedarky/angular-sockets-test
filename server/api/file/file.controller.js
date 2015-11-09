@@ -12,6 +12,8 @@
 var _ = require('lodash');
 var sqldb = require('../../sqldb');
 var File = sqldb.File;
+var multer = require('multer');
+var upload = multer({ dest: 'uploads/' }).single('file');
 
 function handleError(res, statusCode) {
   statusCode = statusCode || 500;
@@ -80,9 +82,19 @@ exports.show = function(req, res) {
 
 // Creates a new File in the DB
 exports.create = function(req, res) {
-  File.create(req.body)
-    .then(responseWithResult(res, 201))
-    .catch(handleError(res));
+  upload(req, res, function (err) {
+    console.log(req.file);
+    console.log(req.body);
+    if (err) {
+      // An error occurred when uploading
+      return
+    }
+    File.create(req.body)
+      .then(responseWithResult(res, 201))
+      .catch(handleError(res));
+    // Everything went fine
+  });
+
 };
 
 // Updates an existing File in the DB
