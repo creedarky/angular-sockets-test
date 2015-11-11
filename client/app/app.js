@@ -7,13 +7,13 @@ angular.module('plataformaApp', [
   'btford.socket-io',
   'ui.router',
   'ui.bootstrap',
-  'validation.match'
+  'validation.match',
+  'ngFileUpload'
 ])
   .config(function($stateProvider, $urlRouterProvider, $locationProvider, $httpProvider) {
     $urlRouterProvider
       .otherwise('/');
 
-    $locationProvider.html5Mode(true);
     $httpProvider.interceptors.push('authInterceptor');
   })
 
