@@ -1,16 +1,18 @@
 .container
   .form-group
     label Nombre
-    input.form-control(type="text", ng-model="FileCtrl.fileName")
+    input.form-control(type="text", ng-model="file.fileName")
   .form-group
     label Descripción
-    input.form-control(type="text", ng-model="FileCtrl.description")
+    input.form-control(type="text", ng-model="file.description")
   .form-group
     label Archivo
-    .button(ngf-select='', ng-model='FileCtrl.file', name='file', ngf-pattern="'image/*'", accept='image/*', ngf-max-size='20MB', ngf-min-height='100', ngf-resize='{width: 100, height: 100}') Select
+    .button(ngf-select='', ng-model='file.file', name='file', ngf-pattern="'image/*'", accept='image/*', ngf-max-size='20MB', ngf-min-height='100', ngf-resize='{width: 100, height: 100}') Select
 
     |   Drop files:
-    .drop-box(ngf-drop='', ng-model='FileCtrl.file') Drop
+    .drop-box(ngf-drop='', ng-model='file.file') Drop
+
+    img(ngf-thumbnail='file.file')
 
 
-  button.btn.btn-default(ng-click='FileCtrl.upload()') Subir
+  button.btn.btn-default(ng-click='file.upload()') Subir

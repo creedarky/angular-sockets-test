@@ -6,6 +6,7 @@ angular.module('plataformaApp')
       .state('file', {
         url: '/file',
         templateUrl: 'app/file/file.html',
-        controller: 'FileCtrl'
+        controller: 'FileCtrl',
+        controllerAs: 'file'
       });
   });

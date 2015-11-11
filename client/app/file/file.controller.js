@@ -10,9 +10,9 @@ angular.module('plataformaApp')
     vm.upload = upload;
 
     function upload() {
-
+      console.log('adsadsadsa');
       Upload.upload({
-        url: 'upload/url',
+        url: '/api/files',
         data: {file: vm.file, 'fileName': vm.fileName, 'description': vm.description}
       }).then(function (resp) {
         console.log('Success ' + resp.config.data.file.name + 'uploaded. Response: ' + resp.data);
