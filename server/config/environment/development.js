@@ -3,10 +3,8 @@
 // Development specific configuration
 // ==================================
 module.exports = {
-  // MongoDB connection options
-  mongo: {
-    uri: 'mongodb://localhost/plataforma-dev'
-  },
+
+  // Sequelize connection opions
   sequelize: {
     uri: 'sqlite://',
     options: {
@@ -18,5 +16,7 @@ module.exports = {
     }
   },
 
+  // Seed database on startup
   seedDB: true
+
 };

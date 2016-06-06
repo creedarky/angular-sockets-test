@@ -1,22 +1,26 @@
 'use strict';
 
-angular.module('plataformaApp')
-  .factory('User', function ($resource) {
+(function() {
+
+  function UserResource($resource) {
     return $resource('/api/users/:id/:controller', {
       id: '@_id'
-    },
-    {
+    }, {
       changePassword: {
         method: 'PUT',
         params: {
-          controller:'password'
+          controller: 'password'
         }
       },
       get: {
         method: 'GET',
         params: {
-          id:'me'
+          id: 'me'
         }
       }
     });
-  });
+  }
+
+  angular.module('plataformaApp.auth')
+    .factory('User', UserResource);
+})();

@@ -7,7 +7,13 @@ module.exports = function(config) {
     basePath: '',
 
     // testing framework to use (jasmine/mocha/qunit/...)
-    frameworks: ['jasmine'],
+    frameworks: ['mocha', 'chai', 'sinon-chai', 'chai-as-promised', 'chai-things'],
+
+    client: {
+      mocha: {
+        timeout: 5000 // set default mocha spec timeout
+      }
+    },
 
     // list of files / patterns to load in the browser
     files: [
@@ -15,17 +21,15 @@ module.exports = function(config) {
       // endbower
       'node_modules/socket.io-client/socket.io.js',
       'client/app/app.js',
-      'client/app/**/*.js',
-      'client/components/**/*.js',
-      'client/app/**/*.jade',
-      'client/components/**/*.jade',
-      'client/app/**/*.html',
-      'client/components/**/*.html'
+      'client/{app,components}/**/*.module.js',
+      'client/{app,components}/**/*.js',
+      'client/{app,components}/**/*.{jade,html}'
     ],
 
     preprocessors: {
+      '**/*.html': 'ng-html2js',
       '**/*.jade': 'ng-jade2js',
-      '**/*.html': 'html2js',
+      'client/{app,components}/**/*.js': 'babel'
     },
 
     ngHtml2JsPreprocessor: {
@@ -36,7 +40,17 @@ module.exports = function(config) {
       stripPrefix: 'client/'
     },
 
-    
+    babelPreprocessor: {
+      options: {
+        sourceMap: 'inline'
+      },
+      filename: function (file) {
+        return file.originalPath.replace(/\.js$/, '.es5.js');
+      },
+      sourceFileName: function (file) {
+        return file.originalPath;
+      }
+    },
 
     // list of files / patterns to exclude
     exclude: [],
@@ -60,7 +74,6 @@ module.exports = function(config) {
     // enable / disable watching file and executing tests whenever any file changes
     autoWatch: false,
 
-
     // Start these browsers, currently available:
     // - Chrome
     // - ChromeCanary
@@ -70,7 +83,6 @@ module.exports = function(config) {
     // - PhantomJS
     // - IE (only Windows)
     browsers: ['PhantomJS'],
-
 
     // Continuous Integration mode
     // if true, it capture browsers, run tests and exit

@@ -3,7 +3,6 @@
 
 angular.module('plataformaApp')
   .factory('socket', function(socketFactory) {
-
     // socket.io now auto-configures its connection when we ommit a connection url
     var ioSocket = io('', {
       // Send auth token on connection, you will need to DI the Auth service above
@@ -12,11 +11,11 @@ angular.module('plataformaApp')
     });
 
     var socket = socketFactory({
-      ioSocket: ioSocket
+      ioSocket
     });
 
     return {
-      socket: socket,
+      socket,
 
       /**
        * Register listeners to sync an array with updates on a model
@@ -28,14 +27,16 @@ angular.module('plataformaApp')
        * @param {Array} array
        * @param {Function} cb
        */
-      syncUpdates: function (modelName, array, cb) {
+      syncUpdates(modelName, array, cb) {
         cb = cb || angular.noop;
 
         /**
          * Syncs item creation/updates on 'model:save'
          */
-        socket.on(modelName + ':save', function (item) {
-          var oldItem = _.find(array, {_id: item._id});
+        socket.on(modelName + ':save', function(item) {
+          var oldItem = _.find(array, {
+            _id: item._id
+          });
           var index = array.indexOf(oldItem);
           var event = 'created';
 
@@ -54,9 +55,11 @@ angular.module('plataformaApp')
         /**
          * Syncs removed items on 'model:remove'
          */
-        socket.on(modelName + ':remove', function (item) {
+        socket.on(modelName + ':remove', function(item) {
           var event = 'deleted';
-          _.remove(array, {_id: item._id});
+          _.remove(array, {
+            _id: item._id
+          });
           cb(event, item, array);
         });
       },
@@ -66,7 +69,7 @@ angular.module('plataformaApp')
        *
        * @param modelName
        */
-      unsyncUpdates: function (modelName) {
+      unsyncUpdates(modelName) {
         socket.removeAllListeners(modelName + ':save');
         socket.removeAllListeners(modelName + ':remove');
       }

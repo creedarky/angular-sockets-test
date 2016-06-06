@@ -1,10 +1,10 @@
 'use strict';
 
-import express from 'express';
-import controller from './user.controller';
-import auth from '../../auth/auth.service';
+import {Router} from 'express';
+import * as controller from './user.controller';
+import * as auth from '../../auth/auth.service';
 
-var router = express.Router();
+var router = new Router();
 
 router.get('/', auth.hasRole('admin'), controller.index);
 router.delete('/:id', auth.hasRole('admin'), controller.destroy);

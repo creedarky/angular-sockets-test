@@ -32,4 +32,4 @@ function emitEvent(event) {
   }
 }
 
-module.exports = UserEvents;
+export default UserEvents;

@@ -9,10 +9,10 @@ var Thing = sqldb.Thing;
 var User = sqldb.User;
 
 Thing.sync()
-  .then(function() {
+  .then(() => {
     return Thing.destroy({ where: {} });
   })
-  .then(function() {
+  .then(() => {
     Thing.bulkCreate([{
       name: 'Development Tools',
       info: 'Integration with popular tools such as Bower, Grunt, Babel, Karma, ' +
@@ -44,10 +44,8 @@ Thing.sync()
   });
 
 User.sync()
-  .then(function() {
-    return User.destroy({ where: {} });
-  })
-  .then(function() {
+  .then(() => User.destroy({ where: {} }))
+  .then(() => {
     User.bulkCreate([{
       provider: 'local',
       name: 'Test User',
@@ -60,7 +58,7 @@ User.sync()
       email: 'admin@example.com',
       password: 'admin'
     }])
-    .then(function() {
+    .then(() => {
       console.log('finished populating users');
     });
   });

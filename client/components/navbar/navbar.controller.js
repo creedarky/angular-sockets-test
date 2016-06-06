@@ -1,20 +1,16 @@
 'use strict';
 
-angular.module('plataformaApp')
-  .controller('NavbarCtrl', function ($scope, Auth) {
-    $scope.menu = [
-      {
-        'title': 'Home',
-        'state': 'main'
-      },
-      {
-        'title': 'File',
-        'state': 'file'
-      }
-    ];
+class NavbarController {
+  //end-non-standard
 
-    $scope.isCollapsed = true;
-    $scope.isLoggedIn = Auth.isLoggedIn;
-    $scope.isAdmin = Auth.isAdmin;
-    $scope.getCurrentUser = Auth.getCurrentUser;
-  });
+  //start-non-standard
+  constructor(Auth) {
+    this.isLoggedIn = Auth.isLoggedIn;
+    this.isAdmin = Auth.isAdmin;
+    this.getCurrentUser = Auth.getCurrentUser;
+  }
+
+}
+
+angular.module('plataformaApp')
+  .controller('NavbarController', NavbarController);

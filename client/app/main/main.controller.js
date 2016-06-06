@@ -1,33 +1,44 @@
 'use strict';
+
 (function() {
 
-function MainController($scope, $http, socket) {
-  var self = this;
-  this.awesomeThings = [];
+  class MainController {
 
-  $http.get('/api/things').then(function(response) {
-    self.awesomeThings = response.data;
-    socket.syncUpdates('thing', self.awesomeThings);
-  });
+    constructor($http, $scope, socket) {
+      this.$http = $http;
+      this.socket = socket;
+      this.awesomeThings = [];
 
-  this.addThing = function() {
-    if (self.newThing === '') {
-      return;
+      $scope.$on('$destroy', function() {
+        socket.unsyncUpdates('thing');
+      });
     }
-    $http.post('/api/things', { name: self.newThing });
-    self.newThing = '';
-  };
 
-  this.deleteThing = function(thing) {
-    $http.delete('/api/things/' + thing._id);
-  };
+    $onInit() {
+      this.$http.get('/api/things')
+        .then(response => {
+          this.awesomeThings = response.data;
+          this.socket.syncUpdates('thing', this.awesomeThings);
+        });
+    }
 
-  $scope.$on('$destroy', function() {
-    socket.unsyncUpdates('thing');
-  });
-}
+    addThing() {
+      if (this.newThing) {
+        this.$http.post('/api/things', {
+          name: this.newThing
+        });
+        this.newThing = '';
+      }
+    }
 
-angular.module('plataformaApp')
-  .controller('MainController', MainController);
+    deleteThing(thing) {
+      this.$http.delete('/api/things/' + thing._id);
+    }
+  }
 
+  angular.module('plataformaApp')
+    .component('main', {
+      templateUrl: 'app/main/main.html',
+      controller: MainController
+    });
 })();

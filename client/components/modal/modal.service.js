@@ -1,21 +1,19 @@
 'use strict';
 
 angular.module('plataformaApp')
-  .factory('Modal', function ($rootScope, $modal) {
+  .factory('Modal', function($rootScope, $uibModal) {
     /**
      * Opens a modal
      * @param  {Object} scope      - an object to be merged with modal's scope
      * @param  {String} modalClass - (optional) class(es) to be applied to the modal
-     * @return {Object}            - the instance $modal.open() returns
+     * @return {Object}            - the instance $uibModal.open() returns
      */
-    function openModal(scope, modalClass) {
+    function openModal(scope = {}, modalClass = 'modal-default') {
       var modalScope = $rootScope.$new();
-      scope = scope || {};
-      modalClass = modalClass || 'modal-default';
 
       angular.extend(modalScope, scope);
 
-      return $modal.open({
+      return $uibModal.open({
         templateUrl: 'components/modal/modal.html',
         windowClass: modalClass,
         scope: modalScope
@@ -33,9 +31,7 @@ angular.module('plataformaApp')
          * @param  {Function} del - callback, ran when delete is confirmed
          * @return {Function}     - the function to open the modal (ex. myModalFn)
          */
-        delete: function(del) {
-          del = del || angular.noop;
-
+        delete(del = angular.noop) {
           /**
            * Open a delete confirmation modal
            * @param  {String} name   - name or info to show on modal
@@ -43,14 +39,15 @@ angular.module('plataformaApp')
            */
           return function() {
             var args = Array.prototype.slice.call(arguments),
-                name = args.shift(),
-                deleteModal;
+              name = args.shift(),
+              deleteModal;
 
             deleteModal = openModal({
               modal: {
                 dismissable: true,
                 title: 'Confirm Delete',
-                html: '<p>Are you sure you want to delete <strong>' + name + '</strong> ?</p>',
+                html: '<p>Are you sure you want to delete <strong>' + name +
+                  '</strong> ?</p>',
                 buttons: [{
                   classes: 'btn-danger',
                   text: 'Delete',
