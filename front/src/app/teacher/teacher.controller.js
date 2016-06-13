@@ -1,12 +1,14 @@
 
 export default class TeacherController {
 
-  constructor($http, SocketFactory) {
+  constructor($http, $timeout, SocketFactory, pdfDelegate) {
     console.log('TeacherController');
     this.$http = $http;
+    this.$timeout = $timeout;
     this.socket = SocketFactory.socket;
+    this.pdfDelegate = pdfDelegate;
     this.pdf = {currentPage: 1, delegateHandle: 'pdf-teacher',
-      url:'/assets/pdf.pdf',  showToolbar: false};
+      url:'/pdf/pdf.pdf',  showToolbar: false};
     this.messages = [{
       id: 1,
       username: 'username',
@@ -38,8 +40,11 @@ export default class TeacherController {
   }
   $onInit() {
     this.socket.on('classroom:changePage', (page) => {
-      console.log(page)
+      this.loadedPdf.goToPage(page);
     });
+    this.$timeout(() => {
+      this.loadedPdf = this.pdfDelegate.$getByHandle(this.pdf.delegateHandle);
+    }, 300);
   }
 
   $onDestroy() {
@@ -47,12 +52,11 @@ export default class TeacherController {
   }
 
   next() {
+    this.loadedPdf.next();
     this.$http.post('/api/classrooms/change-page', {
-      page: 10
+      page: this.loadedPdf.getCurrentPage()
     }).then((response) => console.log(response));
   }
-
-
 
   prev() {
     this.loadedPdf.prev();

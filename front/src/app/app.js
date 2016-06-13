@@ -7,6 +7,7 @@ import 'angular-socket-io';
 import 'font-awesome-loader';
 import '../style/app.css';
 
+import pdfViewer from './pdf-viewer/pdf-viewer';
 import teacher from './teacher';
 import services from './services'
 
@@ -34,6 +35,7 @@ const MODULE_NAME = 'app';
 angular.module(MODULE_NAME, [
   'ui.router',
   'btford.socket-io',
+  pdfViewer,
   services,
   teacher
 ])
