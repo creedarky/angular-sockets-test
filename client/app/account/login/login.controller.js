@@ -1,26 +1,33 @@
 'use strict';
 
-angular.module('plataformaApp')
-  .controller('LoginCtrl', function($scope, Auth, $state) {
-    $scope.user = {};
-    $scope.errors = {};
+class LoginController {
+  constructor(Auth, $state) {
+    this.user = {};
+    this.errors = {};
+    this.submitted = false;
 
-    $scope.login = function(form) {
-      $scope.submitted = true;
+    this.Auth = Auth;
+    this.$state = $state;
+  }
 
-      if (form.$valid) {
-        Auth.login({
-          email: $scope.user.email,
-          password: $scope.user.password
+  login(form) {
+    this.submitted = true;
+
+    if (form.$valid) {
+      this.Auth.login({
+          email: this.user.email,
+          password: this.user.password
         })
-        .then(function() {
+        .then(() => {
           // Logged in, redirect to home
-          $state.go('main');
+          this.$state.go('main');
         })
-        .catch(function(err) {
-          $scope.errors.other = err.message;
+        .catch(err => {
+          this.errors.other = err.message;
         });
-      }
-    };
+    }
+  }
+}
 
-  });
+angular.module('plataformaApp')
+  .controller('LoginController', LoginController);

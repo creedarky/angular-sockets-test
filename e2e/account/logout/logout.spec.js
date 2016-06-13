@@ -5,8 +5,9 @@ var UserModel = require(config.serverConfig.root + '/server/sqldb').User;
 
 describe('Logout View', function() {
   var login = function(user) {
-    browser.get(config.baseUrl + '/login');
+    let promise = browser.get(config.baseUrl + '/login');
     require('../login/login.po').login(user);
+    return promise;
   };
 
   var testUser = {
@@ -15,31 +16,35 @@ describe('Logout View', function() {
     password: 'test'
   };
 
-  beforeEach(function(done) {
-    UserModel.destroy({ where: {} })
+  beforeEach(function() {
+    return UserModel
+      .destroy({ where: {} })
       .then(function() {
         return UserModel.create(testUser);
       })
       .then(function() {
         return login(testUser);
-      })
-      .finally(done);
+      });
   });
+
+  after(function() {
+    return UserModel.destroy({ where: {} });
+  })
 
   describe('with local auth', function() {
 
     it('should logout a user and redirecting to "/"', function() {
       var navbar = require('../../components/navbar/navbar.po');
 
-      expect(browser.getCurrentUrl()).toBe(config.baseUrl + '/');
-      expect(navbar.navbarAccountGreeting.getText()).toBe('Hello ' + testUser.name);
+      expect(browser.getCurrentUrl()).to.eventually.equal(config.baseUrl + '/');
+      expect(navbar.navbarAccountGreeting.getText()).to.eventually.equal('Hello ' + testUser.name);
 
       browser.get(config.baseUrl + '/logout');
 
       navbar = require('../../components/navbar/navbar.po');
 
-      expect(browser.getCurrentUrl()).toBe(config.baseUrl + '/');
-      expect(navbar.navbarAccountGreeting.isDisplayed()).toBe(false);
+      expect(browser.getCurrentUrl()).to.eventually.equal(config.baseUrl + '/');
+      expect(navbar.navbarAccountGreeting.isDisplayed()).to.eventually.equal(false);
     });
 
   });

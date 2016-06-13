@@ -1,36 +1,43 @@
 'use strict';
 
-angular.module('plataformaApp')
-  .controller('SignupCtrl', function($scope, Auth, $state) {
-    $scope.user = {};
-    $scope.errors = {};
+class SignupController {
+  //end-non-standard
 
-    $scope.register = function(form) {
-      $scope.submitted = true;
+  constructor(Auth, $state) {
+      this.Auth = Auth;
+      this.$state = $state;
+    }
+    //start-non-standard
 
-      if (form.$valid) {
-        Auth.createUser({
-          name: $scope.user.name,
-          email: $scope.user.email,
-          password: $scope.user.password
+
+  register(form) {
+    this.submitted = true;
+
+    if (form.$valid) {
+      this.Auth.createUser({
+          name: this.user.name,
+          email: this.user.email,
+          password: this.user.password
         })
-        .then(function() {
+        .then(() => {
           // Account created, redirect to home
-          $state.go('main');
+          this.$state.go('main');
         })
-        .catch(function(err) {
+        .catch(err => {
           err = err.data;
-          $scope.errors = {};
+          this.errors = {};
 
           // Update validity of form fields that match the sequelize errors
           if (err.name) {
-            angular.forEach(err.fields, function(field) {
+            angular.forEach(err.fields, field => {
               form[field].$setValidity('mongoose', false);
-              $scope.errors[field] = err.message;
+              this.errors[field] = err.message;
             });
           }
         });
-      }
-    };
+    }
+  }
+}
 
-  });
+angular.module('plataformaApp')
+  .controller('SignupController', SignupController);

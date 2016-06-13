@@ -1,5 +1,3 @@
-navbar
-
 header#banner.hero-unit
   .container
     h1 'Allo, 'Allo!
@@ -10,17 +8,15 @@ header#banner.hero-unit
   .row
     .col-lg-12
       h1.page-header Features:
-      ul.nav.nav-tabs.nav-stacked.col-md-4.col-lg-4.col-sm-6(ng-repeat='thing in main.awesomeThings')
+      ul.nav.nav-tabs.nav-stacked.col-md-4.col-lg-4.col-sm-6(ng-repeat='thing in $ctrl.awesomeThings')
         li
-          a(href='#', tooltip='{{thing.info}}')
+          a(href='#', uib-tooltip='{{thing.info}}')
             | {{thing.name}}
-            button.close(type='button', ng-click='main.deleteThing(thing)') &times;
+            button.close(type='button', ng-click='$ctrl.deleteThing(thing)') &times;
 
   form.thing-form
     label Syncs in realtime across clients
     p.input-group
-      input.form-control(type='text', placeholder='Add a new thing here.', ng-model='main.newThing')
+      input.form-control(type='text', placeholder='Add a new thing here.', ng-model='$ctrl.newThing')
       span.input-group-btn
-        button.btn.btn-primary(type='submit', ng-click='main.addThing()') Add New
-
-footer
+        button.btn.btn-primary(type='submit', ng-click='$ctrl.addThing()') Add New

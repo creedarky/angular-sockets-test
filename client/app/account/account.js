@@ -2,20 +2,18 @@
 
 angular.module('plataformaApp')
   .config(function($stateProvider) {
-    $stateProvider
-      .state('login', {
+    $stateProvider.state('login', {
         url: '/login',
         templateUrl: 'app/account/login/login.html',
-        controller: 'LoginCtrl'
+        controller: 'LoginController',
+        controllerAs: 'vm'
       })
       .state('logout', {
         url: '/logout?referrer',
         referrer: 'main',
         template: '',
         controller: function($state, Auth) {
-          var referrer = $state.params.referrer ||
-                          $state.current.referrer ||
-                          'main';
+          var referrer = $state.params.referrer || $state.current.referrer || 'main';
           Auth.logout();
           $state.go(referrer);
         }
@@ -23,12 +21,14 @@ angular.module('plataformaApp')
       .state('signup', {
         url: '/signup',
         templateUrl: 'app/account/signup/signup.html',
-        controller: 'SignupCtrl'
+        controller: 'SignupController',
+        controllerAs: 'vm'
       })
       .state('settings', {
         url: '/settings',
         templateUrl: 'app/account/settings/settings.html',
-        controller: 'SettingsCtrl',
+        controller: 'SettingsController',
+        controllerAs: 'vm',
         authenticate: true
       });
   })

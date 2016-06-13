@@ -13,21 +13,19 @@ import http from 'http';
 if (config.seedDB) { require('./config/seed'); }
 
 // Setup server
-const app = express();
-const server = http.createServer(app);
-const socketio = require('socket.io')(server, {
+var app = express();
+var server = http.createServer(app);
+var socketio = require('socket.io')(server, {
   serveClient: config.env !== 'production',
-  path: '/socket.io-client'
+  path: '/api/socket.io-client'
 });
-
-
-require('./config/socketio')(socketio);
-require('./config/express')(app);
-require('./routes')(app);
+require('./config/socketio').default(socketio);
+require('./config/express').default(app);
+require('./routes').default(app);
 
 // Start server
 function startServer() {
-  server.listen(config.port, config.ip, function() {
+  app.angularFullstack = server.listen(config.port, config.ip, function() {
     console.log('Express server listening on %d, in %s mode', config.port, app.get('env'));
   });
 }
@@ -38,9 +36,5 @@ sqldb.sequelize.sync()
     console.log('Server failed to start due to error: %s', err);
   });
 
-
 // Expose app
 exports = module.exports = app;
-
-
-

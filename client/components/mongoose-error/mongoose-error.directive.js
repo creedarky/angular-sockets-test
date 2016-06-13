@@ -3,15 +3,14 @@
 /**
  * Removes server error when user updates input
  */
+
 angular.module('plataformaApp')
-  .directive('mongooseError', function () {
+  .directive('mongooseError', function() {
     return {
       restrict: 'A',
       require: 'ngModel',
       link: function(scope, element, attrs, ngModel) {
-        element.on('keydown', function() {
-          return ngModel.$setValidity('mongoose', true);
-        });
+        element.on('keydown', () => ngModel.$setValidity('mongoose', true));
       }
     };
   });
