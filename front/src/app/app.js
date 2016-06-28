@@ -1,14 +1,23 @@
 import angular from 'angular';
-import 'pdfjs-dist';
+// import 'pdfjs-dist/build/pdf.worker';
+import pdfjsLib from 'pdfjs-dist';
 import 'angular-pdf';
 import 'angular-ui-router';
 import 'angular-socket-io';
+import 'angular-ui-bootstrap';
+import 'angular-bootstrap-datetimepicker/src/css/datetimepicker.css';
+import 'angular-bootstrap-datetimepicker';
+import 'angular-bootstrap-datetimepicker/src/js/datetimepicker.templates';
+import 'angular-file-upload';
 
 import 'font-awesome-loader';
 import '../style/app.css';
 
+pdfjsLib.PDFJS.workerSrc = '/pdf-worker.bundle.js';
+
 import pdfViewer from './pdf-viewer/pdf-viewer';
 import teacher from './teacher';
+import classroom from './classroom';
 import services from './services'
 
 
@@ -21,12 +30,8 @@ let app = () => {
 };
 
 class AppCtrl {
-  constructor($http) {
-    this.url = 'https://github.com/preboot/angular-webpack';
-    this.$http = $http;
-    this.$http.get('/api/things').then((response) => {
-      console.log(response);
-    })
+  constructor() {
+
   }
 }
 
@@ -35,9 +40,13 @@ const MODULE_NAME = 'app';
 angular.module(MODULE_NAME, [
   'ui.router',
   'btford.socket-io',
+  'ui.bootstrap',
+  'ui.bootstrap.datetimepicker',
+  'angularFileUpload',
   pdfViewer,
   services,
-  teacher
+  teacher,
+  classroom
 ])
   .config(function($urlRouterProvider, $locationProvider) {
     $urlRouterProvider.otherwise('/');

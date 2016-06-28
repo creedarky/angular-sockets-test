@@ -83,13 +83,22 @@ exports.show = function(req, res) {
 // Creates a new File in the DB
 exports.create = function(req, res) {
   upload(req, res, function (err) {
-    console.log(req.file);
-    console.log(req.body);
+    console.log('file', req.file);
+    console.log('body', req.body);
     if (err) {
       // An error occurred when uploading
       return
     }
-    File.create(req.body)
+
+    let data = {
+      name: req.file.originalname,
+      filename: req.file.filename,
+      mimetype: req.file.mimetype,
+      path: req.file.path
+    };
+    console.log(data);
+
+    File.create(data)
       .then(responseWithResult(res, 201))
       .catch(handleError(res));
     // Everything went fine

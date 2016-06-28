@@ -1,6 +1,6 @@
 'use strict';
 
-module.exports = function(sequelize, DataTypes) {
+export default function(sequelize, DataTypes) {
   return sequelize.define('File', {
     _id: {
       type: DataTypes.INTEGER,
@@ -9,7 +9,8 @@ module.exports = function(sequelize, DataTypes) {
       autoIncrement: true
     },
     name: DataTypes.STRING,
-    info: DataTypes.STRING,
-    active: DataTypes.BOOLEAN
+    fileName: DataTypes.STRING,
+    mimetype: DataTypes.STRING,
+    path: DataTypes.STRING
   });
 };

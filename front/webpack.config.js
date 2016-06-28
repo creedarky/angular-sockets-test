@@ -33,7 +33,8 @@ module.exports = function makeWebpackConfig () {
     app: [
       './src/app/app.js',
        'bootstrap-loader'
-    ]
+    ],
+    'pdf-worker': 'pdfjs-dist/build/pdf.worker.entry'
 };
 
   /**
@@ -48,7 +49,7 @@ module.exports = function makeWebpackConfig () {
 
     // Output path from the view of the page
     // Uses webpack-dev-server in development
-    publicPath: isProd ? '/' : 'http://localhost:8080/',
+    publicPath: '/',
 
     // Filename for entry points
     // Only adds hash in build mode
@@ -128,6 +129,12 @@ module.exports = function makeWebpackConfig () {
       test: /\.(ttf|eot|svg)(\?[\s\S]+)?$/,
       loader: 'file'
     },
+    {
+      test: [
+        /datetimepicker.js/,
+      ],
+      loader: "imports?define=>false,angular"
+    }
     ]
   };
 

@@ -9,7 +9,10 @@ export default function(sequelize, DataTypes) {
       autoIncrement: true
     },
     name: DataTypes.STRING,
-    info: DataTypes.STRING,
-    active: DataTypes.BOOLEAN
+    description: DataTypes.STRING,
+    active: DataTypes.BOOLEAN,
+    startingDate: DataTypes.DATE,
+    endDate: DataTypes.DATE,
+    currentPage: DataTypes.INTEGER,
   });
 }
