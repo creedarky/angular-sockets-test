@@ -11,7 +11,7 @@ export default function(sequelize, DataTypes) {
     name: DataTypes.STRING,
     description: DataTypes.STRING,
     active: DataTypes.BOOLEAN,
-    startingDate: DataTypes.DATE,
+    startDate: DataTypes.DATE,
     endDate: DataTypes.DATE,
     currentPage: DataTypes.INTEGER,
   });

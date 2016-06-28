@@ -53,6 +53,7 @@ function handleEntityNotFound(res) {
 }
 
 function handleError(res, statusCode) {
+  console.log(res);
   statusCode = statusCode || 500;
   return function(err) {
     res.status(statusCode).send(err);
@@ -80,6 +81,7 @@ export function show(req, res) {
 
 // Creates a new Classroom in the DB
 export function create(req, res) {
+  console.log(req.body);
   return Classroom.create(req.body)
     .then(respondWithResult(res, 201))
     .catch(handleError(res));
