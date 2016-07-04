@@ -65,10 +65,6 @@ export default class TeacherController {
   }
 
   next() {
-    // this.$http.post('/api/classrooms/change-page', {
-    //   page: this.loadedPdf.getCurrentPage() + 1,
-    //   id: this.id
-    // }).then((response) => console.log(response));
     this.socket.emit('changePage', {page: this.loadedPdf.getCurrentPage() + 1});
     this.loadedPdf.next();
   }
