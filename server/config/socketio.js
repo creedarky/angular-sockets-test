@@ -42,7 +42,16 @@ export default function(socketio) {
       ':' + socket.request.connection.remotePort;
 
     socket.connectedAt = new Date();
+    socket.on('join', data => {
+      let channel = `classroom${data.id}`;
+      socket.channel = channel;
+      socket.join(channel);
+    });
 
+    socket.on('changePage', (data) => {
+      console.log('asdf', data, socket.channel);
+      socket.broadcast.to(socket.channel).emit('changePage', data.page);
+    });
     socket.log = function(...data) {
       console.log(`SocketIO ${socket.nsp.name} [${socket.address}]`, ...data);
     };

@@ -3,7 +3,7 @@ import angular from 'angular';
 import ClassroomCreateController from './classroom-create.controller';
 import template from './create.html'
 
-export default angular.module('app.teacher', [])
+export default angular.module('app.components.classroom', [])
   .config(function ($stateProvider) {
     $stateProvider
       .state('classroom', {
