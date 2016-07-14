@@ -8,7 +8,8 @@ export default angular.module('app.components.classroom', [])
     $stateProvider
       .state('classroom', {
         url: '/classroom/create',
-        template: '<classroom-create></classroom-create>'
+        template: '<classroom-create></classroom-create>',
+        authenticate: true
       });
   })
   .component('classroomCreate', {

@@ -9,7 +9,8 @@ export default angular.module('app.components.teacher', [uiRouter])
     $stateProvider
       .state('teacher', {
         url: '/teacher/:id',
-        template: '<teacher-class></teacher-class>'
+        template: '<teacher-class></teacher-class>',
+        authenticate: true
       });
   })
   .component('teacherClass', {
