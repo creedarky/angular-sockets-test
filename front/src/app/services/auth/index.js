@@ -21,27 +21,27 @@ export default angular.module('app.services.auth', ['app.constants', 'app.servic
       }
 
       if (typeof next.authenticate === 'string') {
-        Auth.hasRole(next.authenticate, _.noop)
+        Auth.hasRole(next.authenticate, angular.noop)
           .then(has => {
             if (has) {
               return;
             }
 
             event.preventDefault();
-            return Auth.isLoggedIn(_.noop)
+            return Auth.isLoggedIn(angular.noop)
               .then(is => {
-                $state.go(is ? 'main' : 'login');
+                $state.go(is ? 'home' : 'login');
               });
           });
       } else {
-        Auth.isLoggedIn(_.noop)
+        Auth.isLoggedIn(angular.noop)
           .then(is => {
             if (is) {
               return;
             }
 
             event.preventDefault();
-            $state.go('main');
+            $state.go('home');
           });
       }
     });

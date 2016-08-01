@@ -1,5 +1,5 @@
-<div class="row">
-  <div class="col-md-6" ng-repeat="class in $ctrl.classes">
+<ul class="list-group">
+  <li class="list-group-item" ng-repeat="class in $ctrl.classes">
     <a ui-sref="teacher({id: class._id})"> {{class.name}} </a>
-  </div>
-</div>
+  </li>
+</ul>
